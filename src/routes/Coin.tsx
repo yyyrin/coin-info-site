@@ -34,6 +34,63 @@ interface RouteState {
   name: string;
 }
 
+interface InfoData {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
+  description: string;
+  message: string;
+  open_source: boolean;
+  started_at: string;
+  development_status: string;
+  hardware_wallet: boolean;
+  proof_type: string;
+  org_structure: string;
+  hash_algorithm: string;
+  first_data_at: string;
+  last_data_at: string;
+}
+
+interface PriceData {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  circulating_supply: number;
+  total_supply: number;
+  max_supply: number;
+  beta_value: number;
+  first_data_at: string;
+  last_updated: string;
+  quotes: {
+    USD: {
+      ath_date: string;
+      ath_price: number;
+      market_cap: number;
+      market_cap_change_24h: number;
+      percent_change_1h: number;
+      percent_change_1y: number;
+      percent_change_6h: number;
+      percent_change_7d: number;
+      percent_change_12h: number;
+      percent_change_15m: number;
+      percent_change_24h: number;
+      percent_change_30d: number;
+      percent_change_30m: number;
+      percent_from_price_ath: number;
+      price: number;
+      volume_24h: number;
+      volume_24h_change_24h: number;
+    };
+  };
+}
+
+interface PriceData {}
+
 const Coin = () => {
   const [loading, setLoading] = useState(true);
   // useParams: url의 동적인 파라미터 값을 추출할 때 사용
@@ -41,8 +98,8 @@ const Coin = () => {
   // useLocation: 현재 URL과 관련된 정보 포함하는 객체 반환
   // state: Link 컴포넌트를 통해 전달된 state 나타내며, 페이지 간에 데이터 전달할 때 사용
   const { state } = useLocation<RouteState>();
-  const [info, setInfo] = useState({});
-  const [priceInfo, setPriceInfo] = useState({});
+  const [info, setInfo] = useState<InfoData>();
+  const [priceInfo, setPriceInfo] = useState<PriceData>();
 
   const getinfoData = async () => {
     const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
@@ -51,7 +108,6 @@ const Coin = () => {
 
   const getPriceData = async () => {
     const res = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
-    console.log(res.data);
     setPriceInfo(res.data);
   };
 

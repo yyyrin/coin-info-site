@@ -24,8 +24,9 @@ const Coin = styled.li`
   margin-bottom: 10px;
   border-radius: 15px;
   a {
+    display: flex;
+    align-items: center;
     transition: color 0.2 ease-in;
-    display: block;
     padding: 20px;
   }
   &:hover {
@@ -45,6 +46,12 @@ const Loader = styled.span`
   display: block;
 `;
 
+const Img = styled.img`
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+`;
+
 interface CoinInterface {
   id: string;
   name: string;
@@ -58,16 +65,6 @@ interface CoinInterface {
 const Coins = () => {
   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  // 즉시 실행함수
-  //   (async () => {
-  //     const response = await fetch("https://api.coinpaprika.com/v1/coins");
-  //     const json = await response.json();
-  //     setCoins(json.slice(0, 100));
-  //     setLoading(false);
-  //   })();
-  // }, []);
 
   const getCoins = async () => {
     const res = await axios("https://api.coinpaprika.com/v1/coins");
@@ -90,7 +87,19 @@ const Coins = () => {
         <CoinsList>
           {coins.map((coin) => (
             <Coin key={coin.id}>
-              <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+              {/* Link 컴포넌트 사용해서 코인 상세 페이지로 이동 */}
+              <Link
+                to={{
+                  pathname: `/${coin.id}`,
+                  // state 사용해서 코인 name 전달
+                  state: { name: coin.name },
+                }}
+              >
+                <Img
+                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                />
+                {coin.name} &rarr;
+              </Link>
             </Coin>
           ))}
         </CoinsList>

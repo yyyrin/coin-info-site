@@ -11,6 +11,8 @@ import {
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
+import { useQuery } from "react-query";
+import { getCoinInfo, getCoinTickers } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -110,7 +112,7 @@ interface InfoData {
   last_data_at: string;
 }
 
-interface PriceData {
+interface TickersData {
   id: string;
   name: string;
   symbol: string;
@@ -144,43 +146,30 @@ interface PriceData {
   };
 }
 
-interface PriceData {}
-
 const Coin = () => {
-  const [loading, setLoading] = useState(true);
   // useParams: url의 동적인 파라미터 값을 추출할 때 사용
   const { coinId } = useParams<RouteParams>();
   // useLocation: 현재 URL과 관련된 정보 포함하는 객체 반환
   // state: Link 컴포넌트를 통해 전달된 state 나타내며, 페이지 간에 데이터 전달할 때 사용
   const { state } = useLocation<RouteState>();
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
   // useRouteMatch: 현재 URL이 특정 경로에 일치하는지 여부를 확인하고 일치하는 경우에 대한 정보를 얻을 때 사용
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => getCoinInfo(coinId)
+  );
+  const { isLoading: tickersLoading, data: tickersData } =
+    useQuery<TickersData>(["tickers", coinId], () => getCoinTickers(coinId));
 
-  const getinfoData = async () => {
-    const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-    setInfo(res.data);
-  };
-
-  const getPriceData = async () => {
-    const res = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
-    setPriceInfo(res.data);
-  };
-
-  useEffect(() => {
-    getinfoData();
-    getPriceData();
-    setLoading(false);
-  }, [coinId]);
+  const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
       <Header>
         <Title>
           {/* 홈페이지로부터 온 게 아닌 경우도 고려(url로부터 name 받는 방식과 api로 name 받는 방식) */}
-          {state?.name ? state.name : loading ? "Loading.." : info?.name}
+          {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -190,26 +179,26 @@ const Coin = () => {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
           {/* <a>는 페이지 전체를 새로고침하기 때문에 Link 사용 */}

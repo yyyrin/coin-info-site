@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,6 +41,25 @@ const Coin = () => {
   // useLocation: 현재 URL과 관련된 정보 포함하는 객체 반환
   // state: Link 컴포넌트를 통해 전달된 state 나타내며, 페이지 간에 데이터 전달할 때 사용
   const { state } = useLocation<RouteState>();
+  const [info, setInfo] = useState({});
+  const [priceInfo, setPriceInfo] = useState({});
+
+  const getinfoData = async () => {
+    const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
+    setInfo(res.data);
+  };
+
+  const getPriceData = async () => {
+    const res = await axios(`https://api.coinpaprika.com/v1/tickers/${coinId}`);
+    console.log(res.data);
+    setPriceInfo(res.data);
+  };
+
+  useEffect(() => {
+    getinfoData();
+    getPriceData();
+    setLoading(false);
+  }, []);
 
   return (
     <Container>

@@ -21,8 +21,12 @@ const Chart = ({ coinId }: ChartProps) => {
   // router로부터 parameter 가져오는 방법
   // 하지만 Chart 컴포넌트를 렌더링하는 Coin screen은 URL로부터 이미 coinId 값 알고 있기 때문에 props로 넘겨줘도 됨
   // const params = useParams();
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
-    getCoinHistory(coinId)
+  const { isLoading, data } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => getCoinHistory(coinId),
+    {
+      refetchInterval: 10000, // 해당 query를 10초마다 refetch
+    }
   );
 
   return (

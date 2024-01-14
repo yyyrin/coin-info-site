@@ -11,6 +11,7 @@ import Price from "./Price";
 import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { getCoinInfo, getCoinTickers } from "../api";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -158,12 +159,19 @@ const Coin = () => {
     () => getCoinInfo(coinId)
   );
   const { isLoading: tickersLoading, data: tickersData } =
-    useQuery<TickersData>(["tickers", coinId], () => getCoinTickers(coinId));
+    useQuery<TickersData>(["tickers", coinId], () => getCoinTickers(coinId), {
+      refetchInterval: 5000, // 해당 query를 5초마다 refetch
+    });
 
   const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {/* 홈페이지로부터 온 게 아닌 경우도 고려(url로부터 name 받는 방식과 api로 name 받는 방식) */}
@@ -184,8 +192,8 @@ const Coin = () => {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>

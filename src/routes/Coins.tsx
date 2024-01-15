@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCoins } from "../api";
 import { Helmet } from "react-helmet-async";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -65,6 +67,11 @@ interface ICoin {
 }
 
 const Coins = () => {
+  // useSetRecoilState(state) : Recoil state의 값을 업데이트하기 위한 setter 함수 반환
+  // 상태를 변경하기 위해 비동기로 사용될 수 있는 setter 함수를 리턴
+  // setter는 새로운 값이나 이전 값을 인수로 받는 updater 함수를 넘겨줌
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   // React Query 사용: 2개의 인자(queryKey, fetch 함수)
   // queryKey: query의 고유 식별자
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", getCoins, {
@@ -79,6 +86,7 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

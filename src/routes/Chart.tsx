@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import { getCoinHistory } from "../api";
 import ReactApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface IHistorical {
   time_open: number;
@@ -15,10 +17,10 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
-  isDark: boolean;
 }
 
-const Chart = ({ coinId, isDark }: ChartProps) => {
+const Chart = ({ coinId }: ChartProps) => {
+  const isDark = useRecoilValue(isDarkAtom);
   // router로부터 parameter 가져오는 방법
   // 하지만 Chart 컴포넌트를 렌더링하는 Coin screen은 URL로부터 이미 coinId 값 알고 있기 때문에 props로 넘겨줘도 됨
   // const params = useParams();

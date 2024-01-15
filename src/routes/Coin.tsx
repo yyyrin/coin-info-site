@@ -145,7 +145,11 @@ interface TickersData {
   };
 }
 
-const Coin = () => {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+const Coin = ({ isDark }: ICoinProps) => {
   // useParams: url의 동적인 파라미터 값을 추출할 때 사용
   const { coinId } = useParams<RouteParams>();
   // useLocation: 현재 URL과 관련된 정보 포함하는 객체 반환
@@ -222,7 +226,7 @@ const Coin = () => {
               <Price />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
+              <Chart coinId={coinId} isDark={isDark} />
             </Route>
           </Switch>
         </>

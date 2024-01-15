@@ -15,9 +15,10 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-const Chart = ({ coinId }: ChartProps) => {
+const Chart = ({ coinId, isDark }: ChartProps) => {
   // router로부터 parameter 가져오는 방법
   // 하지만 Chart 컴포넌트를 렌더링하는 Coin screen은 URL로부터 이미 coinId 값 알고 있기 때문에 props로 넘겨줘도 됨
   // const params = useParams();
@@ -45,7 +46,7 @@ const Chart = ({ coinId }: ChartProps) => {
           ]}
           // 차트의 구성 옵션
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               height: 300, // 차트의 높이
               width: 500, // 차트의 너비

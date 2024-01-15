@@ -64,7 +64,11 @@ interface ICoin {
   type: string;
 }
 
-const Coins = () => {
+interface ICoinProps {
+  toggleDark: () => void;
+}
+
+const Coins = ({ toggleDark }: ICoinProps) => {
   // React Query 사용: 2개의 인자(queryKey, fetch 함수)
   // queryKey: query의 고유 식별자
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", getCoins, {
@@ -79,6 +83,7 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button onClick={toggleDark}>Toggle Dark Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

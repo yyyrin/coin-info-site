@@ -178,7 +178,7 @@ const Coin = () => {
   );
   const { isLoading: tickersLoading, data: tickersData } =
     useQuery<TickersData>(["tickers", coinId], () => getCoinTickers(coinId), {
-      refetchInterval: 5000, // 해당 query를 5초마다 refetch
+      // refetchInterval: 5000, // 해당 query를 5초마다 refetch
     });
 
   const loading = infoLoading || tickersLoading;

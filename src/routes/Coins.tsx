@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCoins } from "../api";
 import { Helmet } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -17,6 +15,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 30px auto;
 `;
 
 const CoinsList = styled.ul``;
@@ -24,16 +23,19 @@ const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: ${(props) => props.theme.cardBgColor};
   color: ${(props) => props.theme.textColor};
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   border-radius: 15px;
-  border: 1px solid white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
   a {
     display: flex;
     align-items: center;
-    transition: color 0.2 ease-in;
+    transition: color 0.2s ease-in;
     padding: 20px;
+    font-weight: 500;
   }
   &:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     a {
       color: ${(props) => props.theme.accentColor};
     }
@@ -41,8 +43,9 @@ const Coin = styled.li`
 `;
 
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 40px;
   color: ${(props) => props.theme.accentColor};
+  font-weight: 600;
 `;
 
 const Loader = styled.span`
@@ -67,11 +70,6 @@ interface ICoin {
 }
 
 const Coins = () => {
-  // useSetRecoilState(state) : Recoil state의 값을 업데이트하기 위한 setter 함수 반환
-  // 상태를 변경하기 위해 비동기로 사용될 수 있는 setter 함수를 리턴
-  // setter는 새로운 값이나 이전 값을 인수로 받는 updater 함수를 넘겨줌
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   // React Query 사용: 2개의 인자(queryKey, fetch 함수)
   // queryKey: query의 고유 식별자
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", getCoins, {
@@ -82,11 +80,10 @@ const Coins = () => {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>Cryptocurrencies</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
-        <button onClick={toggleDarkAtom}>Toggle Mode</button>
+        <Title>Cryptocurrencies</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

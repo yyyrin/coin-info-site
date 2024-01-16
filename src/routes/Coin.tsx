@@ -2,6 +2,7 @@ import {
   Link,
   Route,
   Switch,
+  useHistory,
   useLocation,
   useParams,
   useRouteMatch,
@@ -12,6 +13,7 @@ import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { getCoinInfo, getCoinTickers } from "../api";
 import { Helmet } from "react-helmet-async";
+import { ReactComponent as ArrowIc } from "../assets/arrowIc.svg";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -22,13 +24,28 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  margin: 30px 20px;
+  justify-content: space-between;
+`;
+
+const BackIcStyle = styled(ArrowIc)`
+  width: 40px;
+  height: 40px;
+  fill: ${(props) => props.theme.accentColor};
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 40px;
   color: ${(props) => props.theme.accentColor};
+  font-weight: 600;
+`;
+
+const RightComponent = styled.div`
+  width: 40px;
+  height: 40px;
+  visibility: hidden;
 `;
 
 const Loader = styled.span`
@@ -39,9 +56,10 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
+  background-color: ${(props) => props.theme.cardBgColor};
+  padding: 20px 20px;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const OverviewItem = styled.div`
@@ -165,6 +183,12 @@ const Coin = () => {
 
   const loading = infoLoading || tickersLoading;
 
+  // useHistory: URL 주소를 변경할 때 사용하는 Hook
+  const history = useHistory();
+  const handleBackButtonClick = () => {
+    history.push("/"); // 브라우저의 주소를 변경하고 해당 주소로 이동
+  };
+
   return (
     <Container>
       <Helmet>
@@ -173,10 +197,12 @@ const Coin = () => {
         </title>
       </Helmet>
       <Header>
+        <BackIcStyle onClick={handleBackButtonClick} />
         <Title>
           {/* 홈페이지로부터 온 게 아닌 경우도 고려(url로부터 name 받는 방식과 api로 name 받는 방식) */}
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
         </Title>
+        <RightComponent />
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -184,26 +210,26 @@ const Coin = () => {
         <>
           <Overview>
             <OverviewItem>
-              <span>Rank:</span>
+              <span>Rank</span>
               <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Symbol:</span>
+              <span>Symbol</span>
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Price:</span>
+              <span>Price</span>
               <span>${tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
-              <span>Total Suply:</span>
+              <span>Total Suply</span>
               <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Max Supply:</span>
+              <span>Max Supply</span>
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>

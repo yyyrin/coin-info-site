@@ -1,10 +1,12 @@
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { HelmetProvider } from "react-helmet-async";
 import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { isDarkAtom } from "./atoms";
+import { ReactComponent as MoonIc } from "./assets/moonIc.svg";
+import { ReactComponent as SunIc } from "./assets/sunIc.svg";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -39,6 +41,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color:${(props) => props.theme.bgColor};
   color:${(props) => props.theme.textColor};
+  transition: background-color 0.3s, color 0.3s;
 }
 menu, ol, ul {
   list-style: none;
@@ -64,20 +67,47 @@ a {
 }
 `;
 
+const ButtonContainer = styled.div`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 40px;
+  border-radius: 30px;
+  background-color: ${(props) => props.theme.cardBgColor};
+  padding: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+`;
+
 const App = () => {
   // useRecoilValue(state): Recoil state 값을 반환
   // 암묵적으로 주어진 상태에 컴포넌트를 구독함
   // 읽기 전용 상태와 쓰기 가능 상태에서 모두 동작하므로 컴포넌트가 상태를 읽을 수만 있게 하고 싶을 때에 추천하는 hook
   // React 컴포넌트에서 사용하면 상태가 업데이트 될 때 리렌더링을 하도록 컴포넌트를 구독함
-  const isDark = useRecoilValue(isDarkAtom);
+  const [isDark, setIsDark] = useRecoilState(isDarkAtom);
+
+  const onClick = () => {
+    setIsDark(!isDark);
+  };
 
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <GlobalStyle />
       <HelmetProvider>
         <Router />
+        <ButtonContainer onClick={onClick}>
+          {isDark ? <SunIc fill="#2668ed" /> : <MoonIc fill="#2668ed" />}
+        </ButtonContainer>
       </HelmetProvider>
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </ThemeProvider>
   );
 };

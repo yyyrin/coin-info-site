@@ -4,22 +4,12 @@ import ReactApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
 import styled from "styled-components";
+import { IHistorical } from "../types/coinTypes";
 
 const ChartContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-interface IHistorical {
-  time_open: number;
-  time_close: number;
-  open: string; // 시작가
-  high: string; // 최고가
-  low: string; // 최저가
-  close: string; // 종가
-  volume: string;
-  market_cap: number;
-}
 
 interface ChartProps {
   coinId: string;
@@ -37,8 +27,6 @@ const Chart = ({ coinId }: ChartProps) => {
       // refetchInterval: 10000, // 해당 query를 10초마다 refetch
     }
   );
-
-  console.log(data);
 
   return (
     <div>

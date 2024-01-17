@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCoins } from "../api";
 import { Helmet } from "react-helmet-async";
+import { ICoin } from "../types/listCoinsTypes";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -58,16 +59,6 @@ const Img = styled.img`
   height: 35px;
   margin-right: 10px;
 `;
-
-interface ICoin {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-}
 
 const Coins = () => {
   // React Query 사용: 2개의 인자(queryKey, fetch 함수)

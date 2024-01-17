@@ -1,13 +1,10 @@
 import {
   Link,
-  Route,
-  Switch,
   useHistory,
   useLocation,
   useParams,
   useRouteMatch,
 } from "react-router-dom";
-import Price from "../Price";
 import { useQuery } from "react-query";
 import { getCoinInfo, getCoinTickers } from "../../api";
 import { Helmet } from "react-helmet-async";
@@ -16,7 +13,6 @@ import { useRecoilState } from "recoil";
 import { tickersDataAtom } from "../../atoms";
 import { useEffect } from "react";
 import * as style from "./styles";
-import Chart from "../Chart";
 
 interface RouteParams {
   coinId: string;
@@ -61,7 +57,7 @@ const CoinOverview = () => {
   }, [fetchedtickersData, setTickersData]);
 
   return (
-    <style.Container>
+    <>
       <Helmet>
         <title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
@@ -107,24 +103,16 @@ const CoinOverview = () => {
           {/* <a>는 페이지 전체를 새로고침하기 때문에 Link 사용 */}
           {/* Link를 사용하여 URL을 바꿈으로써 트리거가 되어 re-render */}
           <style.Tabs>
-            <style.Tab $isActive={chartMatch !== null}>
+            <style.Tab $isActive={priceMatch !== null}>
               <Link to={`/${coinId}/chart`}>+ Chart</Link>
             </style.Tab>
             <style.Tab $isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>+ Price</Link>
             </style.Tab>
           </style.Tabs>
-          <Switch>
-            <Route path={`/${coinId}/price`}>
-              <Price />
-            </Route>
-            <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
-            </Route>
-          </Switch>
         </>
       )}
-    </style.Container>
+    </>
   );
 };
 

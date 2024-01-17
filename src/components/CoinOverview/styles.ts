@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as ArrowIc } from "../../assets/arrowIc.svg";
 
-export const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
-
 export const Header = styled.header`
   height: 10vh;
   display: flex;

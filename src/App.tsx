@@ -88,10 +88,6 @@ const ButtonContainer = styled.div`
 `;
 
 const App = () => {
-  // useRecoilValue(state): Recoil state 값을 반환
-  // 암묵적으로 주어진 상태에 컴포넌트를 구독함
-  // 읽기 전용 상태와 쓰기 가능 상태에서 모두 동작하므로 컴포넌트가 상태를 읽을 수만 있게 하고 싶을 때에 추천하는 hook
-  // React 컴포넌트에서 사용하면 상태가 업데이트 될 때 리렌더링을 하도록 컴포넌트를 구독함
   const [isDark, setIsDark] = useRecoilState(isDarkAtom);
 
   const onClick = () => {

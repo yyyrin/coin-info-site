@@ -56,10 +56,10 @@ export interface TickersData {
 export interface IHistorical {
   time_open: number;
   time_close: number;
-  open: string; // 시작가
-  high: string; // 최고가
-  low: string; // 최저가
-  close: string; // 종가
+  open: string;
+  high: string;
+  low: string;
+  close: string;
   volume: string;
   market_cap: number;
 }

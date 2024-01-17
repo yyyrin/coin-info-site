@@ -1,64 +1,9 @@
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { getCoins } from "../api";
+import { getCoins } from "../../api";
 import { Helmet } from "react-helmet-async";
-import { ICoin } from "../types/listCoinsTypes";
-
-const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 30px auto;
-`;
-
-const CoinsList = styled.ul``;
-
-const Coin = styled.li`
-  background-color: ${(props) => props.theme.cardBgColor};
-  color: ${(props) => props.theme.textColor};
-  margin-bottom: 16px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s, box-shadow 0.3s;
-  a {
-    display: flex;
-    align-items: center;
-    transition: color 0.2s ease-in;
-    padding: 20px;
-    font-weight: 500;
-  }
-  &:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    a {
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 40px;
-  color: ${(props) => props.theme.accentColor};
-  font-weight: 600;
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-`;
-
-const Img = styled.img`
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-`;
+import { ICoin } from "../../types/listCoinsTypes";
+import * as style from "./styles";
 
 const Coins = () => {
   // React Query 사용: 2개의 인자(queryKey, fetch 함수)
@@ -69,19 +14,19 @@ const Coins = () => {
   });
 
   return (
-    <Container>
+    <style.Container>
       <Helmet>
         <title>Cryptocurrencies</title>
       </Helmet>
-      <Header>
-        <Title>Cryptocurrencies</Title>
-      </Header>
+      <style.Header>
+        <style.Title>Cryptocurrencies</style.Title>
+      </style.Header>
       {isLoading ? (
-        <Loader>로딩 중...</Loader>
+        <style.Loader>로딩 중...</style.Loader>
       ) : (
-        <CoinsList>
+        <style.CoinsList>
           {data?.map((coin) => (
-            <Coin key={coin.id}>
+            <style.Coin key={coin.id}>
               {/* Link 컴포넌트 사용해서 코인 상세 페이지로 이동 */}
               <Link
                 to={{
@@ -90,16 +35,16 @@ const Coins = () => {
                   state: { name: coin.name },
                 }}
               >
-                <Img
+                <style.Img
                   src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                 />
                 {coin.name} &rarr;
               </Link>
-            </Coin>
+            </style.Coin>
           ))}
-        </CoinsList>
+        </style.CoinsList>
       )}
-    </Container>
+    </style.Container>
   );
 };
 

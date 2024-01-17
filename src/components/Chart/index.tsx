@@ -1,15 +1,10 @@
 import { useQuery } from "react-query";
-import { getCoinHistory } from "../api";
+import { getCoinHistory } from "../../api";
 import ReactApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "../atoms";
-import styled from "styled-components";
-import { IHistorical } from "../types/coinTypes";
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import { isDarkAtom } from "../../atoms";
+import { IHistorical } from "../../types/coinTypes";
+import * as style from "./styles";
 
 interface ChartProps {
   coinId: string;
@@ -33,7 +28,7 @@ const Chart = ({ coinId }: ChartProps) => {
       {isLoading ? (
         "Loading chart..."
       ) : (
-        <ChartContainer>
+        <style.ChartContainer>
           <ReactApexChart
             type="line" // 차트 유형
             // 차트에 표시하려는 데이터
@@ -123,7 +118,7 @@ const Chart = ({ coinId }: ChartProps) => {
               },
             }}
           />
-        </ChartContainer>
+        </style.ChartContainer>
       )}
     </div>
   );

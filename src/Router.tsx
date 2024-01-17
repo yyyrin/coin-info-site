@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Coins from "./routes/Coins";
-import Coin from "./routes/Coin";
+import CoinDetailPage from "./pages/CoinDetailPage";
+import HomePage from "./pages/HomePage";
 
 const Router = () => {
   return (
@@ -9,10 +9,10 @@ const Router = () => {
       <Switch>
         {/* /:coinId => 사용자가 접속한 URL에서 해당 부분에 어떠한 값이 들어가면 그 값을 변수로 인식 */}
         <Route path="/:coinId">
-          <Coin />
+          <CoinDetailPage />
         </Route>
         <Route path="/">
-          <Coins />
+          <HomePage />
         </Route>
       </Switch>
     </BrowserRouter>

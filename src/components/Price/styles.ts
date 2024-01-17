@@ -30,7 +30,7 @@ export const SubText = styled.p`
   font-weight: 600;
 `;
 
-export const MainText = styled.text`
+export const MainText = styled.p`
   font-size: 30px;
   font-weight: 500;
 `;

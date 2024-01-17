@@ -26,7 +26,6 @@ const Chart = ({ coinId }: ChartProps) => {
             type="line"
             series={[
               {
-                name: "price",
                 data: data?.map((price) => Number(price.close)) ?? [],
               },
             ]}

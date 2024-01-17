@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "/coin-info-site/static/js/main.4cd98740.js",
+    "main.js": "/coin-info-site/static/js/main.602c3e4b.js",
     "static/media/sunIc.svg": "/coin-info-site/static/media/sunIc.a1b875f4866ddd77cdc19bd3de6e4ed2.svg",
     "index.html": "/coin-info-site/index.html",
     "static/media/arrowTrendUpIc.svg": "/coin-info-site/static/media/arrowTrendUpIc.dc4d4373e73879463d4c63be5124535f.svg",
     "static/media/arrowTrendDownIc.svg": "/coin-info-site/static/media/arrowTrendDownIc.314f1b7005cbdc2dfde348e13fdb3ec8.svg",
     "static/media/moonIc.svg": "/coin-info-site/static/media/moonIc.d5c5dd936c9775e6b1e8cfbae24fab81.svg",
     "static/media/arrowIc.svg": "/coin-info-site/static/media/arrowIc.9dd328dcff1792d1ae976d2d6bd4f3a1.svg",
-    "main.4cd98740.js.map": "/coin-info-site/static/js/main.4cd98740.js.map"
+    "main.602c3e4b.js.map": "/coin-info-site/static/js/main.602c3e4b.js.map"
   },
   "entrypoints": [
-    "static/js/main.4cd98740.js"
+    "static/js/main.602c3e4b.js"
   ]
 }

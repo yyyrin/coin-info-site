@@ -103,7 +103,7 @@ const App = () => {
           {isDark ? <SunIc fill="#2668ed" /> : <MoonIc fill="#2668ed" />}
         </ButtonContainer>
       </HelmetProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </ThemeProvider>
   );
 };

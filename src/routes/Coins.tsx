@@ -86,7 +86,7 @@ const Coins = () => {
         <Title>Cryptocurrencies</Title>
       </Header>
       {isLoading ? (
-        <Loader>Loading...</Loader>
+        <Loader>로딩 중...</Loader>
       ) : (
         <CoinsList>
           {data?.map((coin) => (

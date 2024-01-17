@@ -55,46 +55,45 @@ const Loader = styled.span`
 
 const Overview = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: ${(props) => props.theme.cardBgColor};
-  padding: 20px 20px;
+  padding: 16px 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  line-height: 1.3;
 `;
 
 const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-weight: 500;
   span:first-child {
     font-size: 10px;
     font-weight: 400;
-    text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
   }
-`;
-
-const Description = styled.p`
-  margin: 20px 0px;
 `;
 
 const Tabs = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
-  gap: 10px;
+  gap: 16px;
 `;
 
 const Tab = styled.span<{ $isActive: Boolean }>`
   text-align: center;
   text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: ${(props) => props.theme.cardBgColor};
+  padding: 10px 0px;
   border-radius: 10px;
   color: ${(props) =>
     props.$isActive ? props.theme.accentColor : props.theme.textColor};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   a {
     display: block;
   }
@@ -205,24 +204,23 @@ const Coin = () => {
         <RightComponent />
       </Header>
       {loading ? (
-        <Loader>Loading...</Loader>
+        <Loader>{state.name} 로딩 중...</Loader>
       ) : (
         <>
           <Overview>
             <OverviewItem>
-              <span>Rank</span>
+              <span>순위</span>
               <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Symbol</span>
-              <span>${infoData?.symbol}</span>
+              <span>티커</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Price</span>
+              <span>현재가</span>
               <span>${tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
-          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply</span>
@@ -233,6 +231,7 @@ const Coin = () => {
               <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
+          <Overview>{infoData?.description}</Overview>
           {/* <a>는 페이지 전체를 새로고침하기 때문에 Link 사용 */}
           {/* Link를 사용하여 URL을 바꿈으로써 트리거가 되어 re-render */}
           <Tabs>

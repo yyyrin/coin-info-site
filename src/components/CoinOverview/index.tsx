@@ -64,7 +64,7 @@ const CoinOverview = () => {
         <style.RightComponent />
       </style.Header>
       {loading ? (
-        <style.Loader>{state.name} 로딩 중...</style.Loader>
+        <style.Loader>{state?.name} 로딩 중...</style.Loader>
       ) : (
         <>
           <style.Overview>
